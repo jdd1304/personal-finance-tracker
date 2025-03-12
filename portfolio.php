@@ -1,10 +1,10 @@
 <?php
 session_start();
-include('config.php');  // Including database connection file
+include('config.php');  
 
-// Function to get the current stock price using Alpha Vantage API
+
 function get_stock_price($symbol) {
-    $api_key = "HOX4HGRYXHRGRY4A"; // Replace with your Alpha Vantage API key
+    $api_key = "HOX4HGRYXHRGRY4A";
     $url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=$symbol&interval=5min&apikey=$api_key"; // Alpha Vantage API URL for intraday data
 
     // Fetch data from the API
