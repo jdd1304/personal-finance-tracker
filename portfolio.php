@@ -14,21 +14,20 @@ function get_stock_price($symbol) {
         return null; // Return null if API request fails
     }
 
-    // Decode the JSON response
     $data = json_decode($response, true);
     
-    // Check if the response contains 'Time Series (5min)' data
+ 
     if (isset($data['Time Series (5min)'])) {
         // Get the latest available price from the time series data
         $latest_time = key($data['Time Series (5min)']); // Get the most recent time key
         $latest_data = $data['Time Series (5min)'][$latest_time];
         
         // Get the latest price
-        $latest_price = $latest_data['4. close']; // The 'close' price is typically the current price
+        $latest_price = $latest_data['4. close']; 
         
         return $latest_price; // Return the stock price
     } else {
-        return null; // Return null if the price is not available
+        return null; 
     }
 }
 
@@ -43,7 +42,7 @@ $user_id = $_SESSION['user_id'];
 $query = "SELECT * FROM stocks WHERE user_id = '$user_id'";
 $result = mysqli_query($conn, $query);
 
-// Check if the query executed successfully
+
 if (!$result) {
     die("Query failed: " . mysqli_error($conn));
 }
@@ -76,17 +75,16 @@ if (!$result) {
 <div class="container">
     <h1 class="text-center mt-4">Your Stock Portfolio</h1>
 
-    <!-- Logout Button -->
     <div class="text-center mt-3">
         <a href="logout.php" class="btn btn-danger">Logout</a>
     </div>
 
-    <!-- Button to trigger Add Stock Modal -->
+ 
     <div class="text-center mt-3">
         <button class="btn btn-primary" data-toggle="modal" data-target="#addStockModal">Add Stock</button>
     </div>
 
-    <!-- Portfolio Table -->
+
     <div class="table-container">
         <table class="table table-bordered table-striped">
             <thead class="thead-dark">
@@ -108,13 +106,13 @@ if (!$result) {
                     $quantity = $row['quantity'];
                     $purchase_date = $row['purchase_date'];
 
-                    // Get the current stock price using Alpha Vantage API
+                 
                     $current_price = get_stock_price($stock_name);
                     if ($current_price !== null) {
                         $total_investment = $purchase_price * $quantity;
                         $profit_loss = ($current_price - $purchase_price) * $quantity;
 
-                        // Display the data in the table
+                      
                         echo "<tr>
                             <td>$stock_name</td>
                             <td>$purchase_price</td>
@@ -125,7 +123,7 @@ if (!$result) {
                         </tr>";
                         $row_count++;
                     } else {
-                        // If the API fails to get the price, display 'N/A'
+                       
                         echo "<tr>
                             <td>$stock_name</td>
                             <td>$purchase_price</td>
@@ -136,7 +134,7 @@ if (!$result) {
                     }
                 }
                 
-                // If no stocks are found, display a message
+                
                 if ($row_count == 0) {
                     echo "<tr><td colspan='6'>No stocks in your portfolio. Add some stocks to track!</td></tr>";
                 }
@@ -146,7 +144,7 @@ if (!$result) {
     </div>
 </div>
 
-<!-- Add Stock Modal -->
+
 <div class="modal" id="addStockModal" tabindex="-1" role="dialog" aria-labelledby="addStockModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -177,7 +175,7 @@ if (!$result) {
     </div>
 </div>
 
-<!-- Bootstrap JS & jQuery -->
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
